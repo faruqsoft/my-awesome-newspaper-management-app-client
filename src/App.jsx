@@ -16,6 +16,8 @@ import PrivateRoute from "./routes/PrivateRoute";
 import AddPublisher from "./pages/dashboard/AddPublisher";
  import AdminRoute from "./routes/AdminRoute";
  import DashboardLayout from "./pages/dashboard/Dashboard";
+import AllUsers from "./pages/dashboard/AllUsers";
+import AllArticlesAdmin from "./pages/dashboard/AllArticlesAdmin";
 
 function App() {
   return (
@@ -35,7 +37,7 @@ function App() {
         <Route path="/dashboard/AddPublisher" element={<PrivateRoute><AdminRoute><AddPublisher/></AdminRoute></PrivateRoute>} />
 
         <Route path="/dashboard" element={<PrivateRoute><AdminRoute><DashboardLayout /></AdminRoute></PrivateRoute>}>
-        <Route path="users" element={<AllUsers />} />
+        <Route path="users" element={<AllUsers/>} />
         <Route path="articles" element={<AllArticlesAdmin />} />
         <Route path="addPublisher" element={<AddPublisher />} />
       </Route>
