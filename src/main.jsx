@@ -5,6 +5,7 @@ import App from "./App";
 import "./index.css";
 import AuthProvider from "./context/AuthProvider";
 import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 // ✅ React Query Setup
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -16,6 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <BrowserRouter>
           <App />
+          <Toaster position="top-right" />
         </BrowserRouter>
       </AuthProvider>
     </QueryClientProvider>

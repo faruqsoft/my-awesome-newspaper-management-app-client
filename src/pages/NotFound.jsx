@@ -1,11 +1,10 @@
-import React from 'react';
-
 const NotFound = () => {
-    return (
-        <div>
-            <h1 className="text-2xl font-bold mb-4">404 - Page Not Found</h1>
-        </div>
-    );
+  return (
+    <div className="h-screen flex items-center justify-center flex-col">
+      <h1 className="text-5xl font-bold text-red-600">404</h1>
+      <p className="text-xl mt-2">Page Not Found</p>
+    </div>
+  );
 };
 
 export default NotFound;

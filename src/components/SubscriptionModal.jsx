@@ -1,27 +1,25 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
-const SubscriptionModal = () => {
-  const [show, setShow] = useState(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShow(true), 10000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!show) return null;
-
+const SubscriptionModal = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg w-[90%] max-w-md text-center shadow-lg">
-        <h3 className="text-xl font-bold mb-2">🔔 Get Premium Access!</h3>
-        <p className="mb-4">Enjoy unlimited articles and exclusive premium content.</p>
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-md w-96 text-center shadow-xl">
+        <h2 className="text-2xl font-bold mb-2">Get Premium Access</h2>
+        <p className="text-gray-600 mb-4">Subscribe now to unlock premium articles and features!</p>
         <button
-          onClick={() => navigate("/subscription")}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          onClick={() => {
+            onClose();
+            window.location.href = "/subscription"; // Navigate to subscription page
+          }}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
         >
-          Subscribe Now
+          Go to Subscription
+        </button>
+        <button
+          onClick={onClose}
+          className="block mt-3 text-sm text-gray-500 hover:text-gray-700"
+        >
+          Close
         </button>
       </div>
     </div>

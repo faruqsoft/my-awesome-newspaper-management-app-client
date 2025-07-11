@@ -46,25 +46,33 @@ const AuthProvider = ({ children }) => {
   };
 
   // Auth State Observer
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (loggedUser) => {
-      setUser(loggedUser);
-      setLoading(false);
+ useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setLoading(true);
 
-      if (loggedUser) {
-        // Get JWT from server
-        axios
-          .post("http://localhost:5000/jwt", { email: loggedUser.email })
-          .then((res) => {
-            localStorage.setItem("token", res.data.token);
-          });
-      } else {
-        localStorage.removeItem("token");
+    if (currentUser) {
+      try {
+        const res = await axios.post("http://localhost:5000/jwt", {
+          email: currentUser.email,
+        });
+
+        localStorage.setItem("token", res.data.token);
+        setUser(currentUser);
+      } catch (err) {
+        console.error("JWT error:", err);
+        setUser(null);
       }
-    });
+    } else {
+      localStorage.removeItem("token");
+      setUser(null);
+    }
 
-    return () => unsubscribe();
-  }, []);
+    setLoading(false);
+  });
+
+  return () => unsubscribe();
+}, []);
+
 
   const authInfo = {
     user,
