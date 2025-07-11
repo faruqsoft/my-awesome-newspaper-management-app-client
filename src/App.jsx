@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar";
 import PrivateRoute from "./routes/PrivateRoute";
 import AddPublisher from "./pages/dashboard/AddPublisher";
  import AdminRoute from "./routes/AdminRoute";
+ import DashboardLayout from "./pages/dashboard/Dashboard";
 
 function App() {
   return (
@@ -32,7 +33,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard/AddPublisher" element={<PrivateRoute><AdminRoute><AddPublisher/></AdminRoute></PrivateRoute>} />
-     
+
+        <Route path="/dashboard" element={<PrivateRoute><AdminRoute><DashboardLayout /></AdminRoute></PrivateRoute>}>
+        <Route path="users" element={<AllUsers />} />
+        <Route path="articles" element={<AllArticlesAdmin />} />
+        <Route path="addPublisher" element={<AddPublisher />} />
+      </Route>
 
         <Route path="*" element={<NotFound />} />
 
