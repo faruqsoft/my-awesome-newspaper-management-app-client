@@ -60,7 +60,7 @@ const AllArticles = () => {
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <select
-                    className="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full md:w-1/4 px-4 py-2 border bg-gray-700 text-white border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={selectedPublisherFilter}
                     onChange={(e) => setSelectedPublisherFilter(e.target.value)}
                 >
@@ -70,7 +70,7 @@ const AllArticles = () => {
                     ))}
                 </select>
                 <select
-                    className="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full md:w-1/4 px-4 py-2 bg-gray-700 text-white border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={selectedTagsFilter}
                     onChange={(e) => setSelectedTagsFilter(e.target.value)}
                 >
@@ -92,7 +92,7 @@ const AllArticles = () => {
                         return (
                             <div
                                 key={article._id}
-                                className={`bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 ${
+                                className={`rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 ${
                                     isPremiumArticle ? 'border-4 border-yellow-500' : 'border border-gray-200'
                                 }`}
                             >
@@ -107,15 +107,15 @@ const AllArticles = () => {
                                     className="w-full h-48 object-cover"
                                 />
                                 <div className="p-5">
-                                    <h2 className="text-xl font-semibold text-gray-300 mb-2 truncate">{article.title}</h2>
-                                    <div className="flex items-center text-sm text-gray-600 mb-3">
+                                    <h2 className="text-xl font-semibold text-gray-100 mb-2 truncate">{article.title}</h2>
+                                    <div className="flex items-center text-sm text-gray-100 mb-3">
                                         <img src={article.publisherLogo} alt={article.publisher} className="w-6 h-6 rounded-full mr-2" />
                                         <span>{article.publisher}</span>
                                     </div>
-                                    <p className="text-gray-700 text-sm mb-4 line-clamp-3">{article.description}</p>
+                                    <p className="text-gray-100 text-sm mb-4 line-clamp-3">{article.description}</p>
                                     <Link to={`/articles/${article._id}`}>
                                         <button
-                                            className={`w-full py-2 px-4 rounded-md text-white font-semibold ${
+                                            className={`w-full py-2 px-4 rounded-md font-semibold ${
                                                 isDetailsButtonDisabled
                                                     ? 'bg-gray-400 cursor-not-allowed'
                                                     : 'bg-blue-600 hover:bg-blue-700'

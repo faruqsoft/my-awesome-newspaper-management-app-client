@@ -9,7 +9,7 @@ import AllArticles from './pages/AllArticles';
 import ArticleDetails from './pages/ArticleDetails';
 import AddArticle from './pages/AddArticle';
 import Subscription from './pages/Subscription';
-import PremiumArticles from './pages/PremiumArticles';
+import PremiumArticles from './pages/PremiumArticles'; // Important: Keep this import
 import MyProfile from './pages/MyProfile';
 import MyArticles from './pages/MyArticles';
 
@@ -27,7 +27,6 @@ import AdminLayout from './layouts/AdminLayout';
 import PrivateRoutes from './routes/PrivateRoutes';
 import AdminRoutes from './routes/AdminRoutes';
 
-// Placeholder for 404 (NotFound) if not already created
 import NotFound from './pages/NotFound';
 
 
@@ -37,23 +36,26 @@ const App = () => {
             {/* Main Layout for public and private routes */}
             <Route path="/" element={<MainLayout />}>
                 {/* Public Routes */}
-                <Route index element={<Home />} /> {/* Home page */}
+                <Route index element={<Home />} />
                 <Route path="articles" element={<AllArticles />} />
                 <Route path="login" element={<Login />} />
                 <Route path="register" element={<Register />} />
 
-                {/* Private Routes - Wrapped with PrivateRoutes component */}
+                {/* IMPORTANT FIX: Place specific routes before general dynamic routes */}
+                {/* Private Routes */}
                 <Route path="add-article" element={<PrivateRoutes><AddArticle /></PrivateRoutes>} />
-                <Route path="articles/:id" element={<PrivateRoutes><ArticleDetails /></PrivateRoutes>} />
                 <Route path="subscription" element={<PrivateRoutes><Subscription /></PrivateRoutes>} />
-                <Route path="premium-articles" element={<PrivateRoutes><PremiumArticles /></PrivateRoutes>} />
                 <Route path="my-profile" element={<PrivateRoutes><MyProfile /></PrivateRoutes>} />
                 <Route path="my-articles" element={<PrivateRoutes><MyArticles /></PrivateRoutes>} />
 
+                {/* Ensure PremiumArticles is defined BEFORE articles/:id */}
+                <Route path="premium-articles" element={<PrivateRoutes><PremiumArticles /></PrivateRoutes>} />
+                <Route path="articles/:id" element={<PrivateRoutes><ArticleDetails /></PrivateRoutes>} /> {/* This must come AFTER static paths that might be mistaken as IDs */}
+
+
                 {/* Admin Routes - Nested under AdminLayout and wrapped with AdminRoutes */}
-                {/* The AdminLayout will provide the sidebar for admin routes */}
                 <Route path="dashboard" element={<AdminRoutes><AdminLayout /></AdminRoutes>}>
-                    <Route index element={<Dashboard />} /> {/* Admin Dashboard homepage */}
+                    <Route index element={<Dashboard />} />
                     <Route path="all-users" element={<AllUsers />} />
                     <Route path="all-articles" element={<AllArticlesAdmin />} />
                     <Route path="add-publisher" element={<AddPublisher />} />

@@ -35,14 +35,21 @@ const HeroSection = () => {
             </div>
 
             <div className="container mx-auto hero-content z-10">
-                <h1 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">
+                {/* Responsive Heading */}
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 leading-tight">
                     {typeEffect} <Cursor cursorStyle='|' />
                 </h1>
-                <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto font-light">
+                {/* Responsive Sub-heading */}
+                <p className="text-lg sm:text-xl md:text-2xl mb-10 max-w-3xl mx-auto font-light">
                     Your ultimate destination for the latest news, insightful analysis, and trending stories.
                 </p>
                 <Link to="/articles">
-                    <button className="bg-white text-blue-700 px-10 py-4 rounded-full text-3xl font-semibold shadow-lg hover:bg-gray-200 transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    {/* Responsive Button Styling */}
+                    <button className="bg-white text-blue-700 
+                                       px-8 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 lg:px-16 lg:py-8 
+                                       rounded-full 
+                                       text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold 
+                                       shadow-lg hover:bg-gray-200 transition duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-300">
                         Explore Articles
                     </button>
                 </Link>
