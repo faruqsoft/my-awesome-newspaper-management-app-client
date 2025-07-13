@@ -1,0 +1,66 @@
+/* Custom Swiper Styles (optional, adjust as needed) */
+
+/* Style for navigation buttons (next/prev) */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #4f46e5; /* Tailwind blue-600 */
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* For pagination bullets */
+.swiper-pagination-bullet {
+    background-color: #6366f1; /* Tailwind blue-500 */
+    opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #4f46e5; /* Tailwind blue-600 */
+    opacity: 1;
+}
+
+/* Simple keyframe for background blobs (used in hero section) */
+@keyframes blob {
+    0%, 100% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+}
+
+.animate-blob {
+    animation: blob 7s infinite cubic-bezier(0.6, 0.01, 0.3, 0.9);
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
+
+/* For react-modal overlay and content */
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 1001;
+}
