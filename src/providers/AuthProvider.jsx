@@ -1,12 +1,13 @@
-// my-news-app/providers/AuthProvider.jsx
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-// 1. Initialize AuthContext with a default value (e.g., an empty object)
-//    This prevents `useContext(AuthContext)` from returning `null` initially.
-const AuthContext = createContext({}); // Changed from createContext();
+// Firebase Client SDK Imports
+import { auth } from '../firebase/firebase.config'; // Import auth instance
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'; // Import Google Auth provider and signInWithPopup
+
+const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -87,6 +88,41 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // --- NEW: Google Sign-In Function ---
+    const googleSignIn = async () => {
+        setLoading(true);
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const idToken = await result.user.getIdToken(); // Get Firebase ID Token
+
+            // Send Firebase ID Token to your backend for verification and custom JWT generation
+            const response = await axios.post(`${API_BASE_URL}/auth/google-signin`, { idToken });
+            const { token, user: loggedInUser } = response.data;
+
+            localStorage.setItem('token', token);
+            setUser(loggedInUser);
+            setAuthHeader(token);
+            toast.success(response.data.message);
+            navigate('/');
+            return true;
+        } catch (error) {
+            console.error('Google Sign-In failed:', error);
+            // Handle specific Firebase errors
+            if (error.code === 'auth/popup-closed-by-user') {
+                toast.error('Google Sign-In cancelled.');
+            } else if (error.response?.data?.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error('Google Sign-In failed. Please try again.');
+            }
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     const logout = () => {
         localStorage.removeItem('token');
         setAuthHeader(null);
@@ -123,6 +159,7 @@ export const AuthProvider = ({ children }) => {
         loading,
         register,
         login,
+        googleSignIn, // Expose googleSignIn function
         logout,
         updateUserProfile,
         updateAuthUser,
@@ -137,10 +174,9 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-// 2. Add a check inside useAuth to make sure it's used within AuthProvider
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (context === undefined || Object.keys(context).length === 0) { // Check if context is empty object or undefined
+    if (context === undefined || Object.keys(context).length === 0) {
         throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;

@@ -6,7 +6,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import '../../styles/swiper-custom.css'; // Your custom Swiper styles
+import '../../styles/swiper-custom.css' // Your custom Swiper styles
 import { fetchTrendingArticles } from '../../services/articleApi';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';

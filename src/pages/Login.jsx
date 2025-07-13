@@ -3,14 +3,14 @@ import { useAuth } from '../providers/AuthProvider';
 import { Link } from 'react-router-dom';
 
 const Login = () => {
-    const { login, loading } = useAuth();
+    const { login, googleSignIn, loading } = useAuth(); // Destructure googleSignIn
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(''); // Clear previous errors
+        setError('');
 
         if (!email || !password) {
             setError('Please enter both email and password.');
@@ -18,17 +18,13 @@ const Login = () => {
         }
 
         const success = await login({ email, password });
-        if (!success) {
-            // Error handling is already done by toast in AuthProvider, but you can set local error if needed.
-            // setError('Login failed. Please check your credentials.');
-        }
+        // Error is handled by toast in AuthProvider
     };
 
-    const handleGoogleLogin = () => {
-        // Implement Google Login logic here (e.g., using Firebase client SDK)
-        // You'll need to send the Google token to your backend for verification
-        // and then follow a similar login flow as email/password.
-        alert('Google login not yet implemented.');
+    const handleGoogleLogin = async () => {
+        setError('');
+        const success = await googleSignIn();
+        // Error is handled by toast in AuthProvider
     };
 
     return (
@@ -53,7 +49,7 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
-                            className="mt-1 block w-full px-3 py-2 border text-gray-500 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                             placeholder="********"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}

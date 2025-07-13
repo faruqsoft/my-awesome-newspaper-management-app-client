@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import CountUp from 'react-countup';
-import { useAuth } from '../../providers/AuthProvider'; // To check if user is admin
+import { useAuth } from '../../providers/AuthProvider';
 import { fetchUserStatistics } from '../../services/userApi';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -27,13 +27,11 @@ const StatisticsSection = () => {
         });
     }, []);
 
-    // Only enable this query if an admin user is logged in
-    // For a truly public display, the backend route for statistics would need to be public.
-    // For now, it will only fetch if an admin is viewing.
     const { data: userStats, isLoading, isError, error } = useQuery({
         queryKey: ['userStatistics'],
         queryFn: fetchUserStatistics,
-        enabled: user && user.role === 'admin', // Only fetch if an admin is logged in
+        // FIX IS HERE: Safely access user.role
+        enabled: !authLoading && user?.role === 'admin', // Ensure user is not null/undefined AND is admin
         staleTime: 5 * 60 * 1000,
     });
 
@@ -49,7 +47,7 @@ const StatisticsSection = () => {
         <section className="py-16 px-4 md:px-8 bg-white">
             <div className="container mx-auto">
                 <h2 className="text-4xl font-bold text-center text-gray-800 mb-12 stats-title">📈 Our Community in Numbers</h2>
-                {userStats && user.role === 'admin' ? (
+                {userStats && user?.role === 'admin' ? ( // Also use safe access here for rendering
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center stats-grid">
                         <div className="bg-gradient-to-br from-blue-100 to-blue-200 p-8 rounded-xl shadow-md stat-card border border-blue-300">
                             <h3 className="text-6xl font-extrabold text-blue-700 mb-3">
