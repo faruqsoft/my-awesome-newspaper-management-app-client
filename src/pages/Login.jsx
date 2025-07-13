@@ -1,97 +1,93 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthProvider";
-import { useNavigate, Link } from "react-router-dom";
-import Swal from "sweetalert2";
+import React, { useState } from 'react';
+import { useAuth } from '../providers/AuthProvider';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
-  const { signIn, googleLogin } = useContext(AuthContext);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+    const { login, loading } = useAuth();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(''); // Clear previous errors
 
-    const form = e.target;
-    const email = form.email.value;
-    const password = form.password.value;
+        if (!email || !password) {
+            setError('Please enter both email and password.');
+            return;
+        }
 
-    try {
-      await signIn(email, password);
-      Swal.fire("Success", "Login successful!", "success");
-      navigate("/");
-    } catch (err) {
-      setError("Invalid email or password");
-      Swal.fire("Error", "Login failed. Please check your credentials.", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+        const success = await login({ email, password });
+        if (!success) {
+            // Error handling is already done by toast in AuthProvider, but you can set local error if needed.
+            // setError('Login failed. Please check your credentials.');
+        }
+    };
 
-  const handleGoogle = async () => {
-    try {
-      await googleLogin();
-      Swal.fire("Success", "Google login successful!", "success");
-      navigate("/");
-    } catch (err) {
-      Swal.fire("Error", "Google login failed", "error");
-    }
-  };
+    const handleGoogleLogin = () => {
+        // Implement Google Login logic here (e.g., using Firebase client SDK)
+        // You'll need to send the Google token to your backend for verification
+        // and then follow a similar login flow as email/password.
+        alert('Google login not yet implemented.');
+    };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="p-8 rounded shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Login to NewsPortal</h2>
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+                <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Login</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            placeholder="your@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            className="mt-1 block w-full px-3 py-2 border text-gray-500 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                            placeholder="********"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
+                    {error && <p className="text-red-500 text-sm">{error}</p>}
+                    <button
+                        type="submit"
+                        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        disabled={loading}
+                    >
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
+                </form>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block font-medium mb-1">Email</label>
-            <input
-              type="email"
-              name="email"
-              className="w-full px-4 py-2 border rounded"
-              required
-            />
-          </div>
+                <div className="mt-6 text-center">
+                    <p className="text-sm text-gray-600">Or login with</p>
+                    <button
+                        onClick={handleGoogleLogin}
+                        className="mt-3 w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        disabled={loading}
+                    >
+                        <img src="https://www.google.com/favicon.ico" alt="Google icon" className="w-5 h-5 mr-2" />
+                        Login with Google
+                    </button>
+                </div>
 
-          <div>
-            <label className="block font-medium mb-1">Password</label>
-            <input
-              type="password"
-              name="password"
-              className="w-full px-4 py-2 border rounded"
-              required
-            />
-          </div>
-
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
-
-        <div className="text-center mt-4">
-          <p>Don't have an account? <Link to="/register" className="text-blue-600 hover:underline">Register</Link></p>
+                <div className="mt-6 text-center text-sm">
+                    <p className="text-gray-600">Don't have an account? <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">Register here</Link></p>
+                </div>
+            </div>
         </div>
-
-        <div className="text-center mt-4">
-          <button
-            onClick={handleGoogle}
-            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-          >
-            Login with Google
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Login;

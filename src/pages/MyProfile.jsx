@@ -1,88 +1,41 @@
-import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../context/AuthProvider";
-import axios from "axios";
-import toast from "react-hot-toast";
+import React from 'react';
+import { useAuth } from '../providers/AuthProvider';
 
 const MyProfile = () => {
-  const { user } = useContext(AuthContext);
-  const [formData, setFormData] = useState({
-    name: "",
-    photo: "",
-    bio: "",
-  });
+    const { user, loading } = useAuth();
 
-  useEffect(() => {
-    if (user?.email) {
-      axios
-        .get(`http://localhost:5000/users/${user.email}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          const { name, photo, bio } = res.data;
-          setFormData({ name: name || "", photo: photo || "", bio: bio || "" });
-        });
+    if (loading) {
+        return <div className="text-center p-8">Loading profile...</div>;
     }
-  }, [user]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((p) => ({ ...p, [name]: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.patch(
-        `http://localhost:5000/users/${user.email}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      toast.success("Profile updated!");
-    } catch (err) {
-      toast.error("Failed to update profile");
+    if (!user) {
+        return <div className="text-center p-8 text-red-600">Please log in to view your profile.</div>;
     }
-  };
 
-  return (
-    <div className="max-w-xl mx-auto p-6 mt-10 border rounded shadow">
-      <h2 className="text-2xl font-bold mb-4 text-center">My Profile</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          className="input input-bordered w-full"
-          type="text"
-          name="name"
-          value={formData.name}
-          placeholder="Your Name"
-          onChange={handleChange}
-          required
-        />
-        <input
-          className="input input-bordered w-full"
-          type="text"
-          name="photo"
-          value={formData.photo}
-          placeholder="Photo URL (optional)"
-          onChange={handleChange}
-        />
-        <textarea
-          className="textarea textarea-bordered w-full"
-          name="bio"
-          value={formData.bio}
-          placeholder="Short Bio (optional)"
-          onChange={handleChange}
-        />
-        <button type="submit" className="btn btn-primary w-full">
-          Update Profile
-        </button>
-      </form>
-    </div>
-  );
+    return (
+        <div className="container mx-auto p-4 md:p-8">
+            <div className="bg-white p-8 rounded-lg shadow-xl max-w-2xl mx-auto text-center">
+                <h1 className="text-4xl font-bold text-gray-800 mb-6">My Profile</h1>
+                <img
+                    src={user.photoURL || 'https://i.ibb.co/L15L23N/default-avatar.png'}
+                    alt="Profile"
+                    className="w-32 h-32 rounded-full mx-auto mb-6 border-4 border-blue-400 shadow-md"
+                />
+                <p className="text-2xl font-semibold text-gray-700 mb-2">Name: {user.displayName}</p>
+                <p className="text-lg text-gray-600 mb-2">Email: {user.email}</p>
+                <p className="text-lg text-gray-600 mb-4">Role: <span className="font-bold capitalize">{user.role}</span></p>
+                <p className="text-lg text-gray-600 mb-6">
+                    Subscription Status: {user.premiumTaken ?
+                        <span className="font-bold text-green-600">Premium (Since {new Date(user.premiumTaken).toLocaleDateString()})</span> :
+                        <span className="font-bold text-red-600">Normal User</span>
+                    }
+                </p>
+                <button className="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 font-semibold transition duration-200">
+                    Update Profile (Coming Soon)
+                </button>
+            </div>
+        </div>
+    );
 };
 
 export default MyProfile;
