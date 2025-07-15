@@ -22,7 +22,7 @@ const Navbar = () => {
     return (
         <nav className="bg-blue-600 shadow-xl sticky top-0 relative z-50"> {/* Increased z-index */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16">
+                <div className="flex items-center space-x-2 justify-between h-16">
                     {/* Logo */}
                     <div className="flex-shrink-0">
                         <Link to="/" className="text-white text-3xl font-extrabold tracking-tight hover:text-blue-100 transition-colors duration-200">
@@ -31,7 +31,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Desktop Navigation Links */}
-                    <div className="hidden md:flex items-center space-x-6">
+                    <div className="hidden md:flex items-center space-x-2">
                         <NavLink to="/" className={navLinkClasses}>Home</NavLink>
                         <NavLink to="/articles" className={navLinkClasses}>All Articles</NavLink>
                         {/* Always show Add Article, but it's a private route handled by router */}
