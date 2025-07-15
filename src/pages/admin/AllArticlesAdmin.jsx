@@ -149,12 +149,12 @@ const AllArticlesAdmin = () => {
                 <input
                     type="text"
                     placeholder="Search by title..."
-                    className="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full md:w-1/3 px-4 py-2 bg-gray-300 t text-black border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={searchQuery}
                     onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
                 />
                 <select
-                    className="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full md:w-1/4 px-4 py-2 bg-gray-500 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={filterStatus}
                     onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
                 >
@@ -164,7 +164,7 @@ const AllArticlesAdmin = () => {
                     <option value="declined">Declined</option>
                 </select>
                 <select
-                    className="w-full md:w-1/4 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full md:w-1/4 px-4 py-2 bg-gray-500 text-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={filterPublisher}
                     onChange={(e) => { setFilterPublisher(e.target.value); setPage(1); }}
                 >
@@ -288,7 +288,7 @@ const AllArticlesAdmin = () => {
                             <button
                                 onClick={() => setPage(prev => Math.max(prev - 1, 1))}
                                 disabled={page === 1}
-                                className="px-4 py-2 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                                className="px-4 py-2 border rounded-md bg-gray-500 hover:bg-gray-300 disabled:opacity-50"
                             >
                                 Previous
                             </button>
@@ -297,7 +297,7 @@ const AllArticlesAdmin = () => {
                                     key={pNum + 1}
                                     onClick={() => setPage(pNum + 1)}
                                     className={`px-4 py-2 border rounded-md ${
-                                        page === pNum + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 hover:bg-gray-300'
+                                        page === pNum + 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 hover:bg-gray-500'
                                     }`}
                                 >
                                     {pNum + 1}
@@ -306,7 +306,7 @@ const AllArticlesAdmin = () => {
                             <button
                                 onClick={() => setPage(prev => Math.min(prev + 1, articlesData.totalPages))}
                                 disabled={page === articlesData.totalPages}
-                                className="px-4 py-2 border rounded-md bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                                className="px-4 py-2 border rounded-md bg-gray-500 text-black hover:bg-gray-500 disabled:opacity-50"
                             >
                                 Next
                             </button>

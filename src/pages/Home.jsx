@@ -48,7 +48,7 @@ const Home = () => {
             </section>
 
             {/* Extra Section 2: Call to Action / Join Our Community */}
-            <section className="py-16 px-4 md:px-8 bg-purple-700 text-white text-center">
+            <section className="py-16 px-4 md:px-8 bg-purple-500 text-white text-center">
                 <div className="container mx-auto max-w-3xl">
                     <h2 className="text-4xl font-bold mb-6 section-title">🤝 Join Our Growing Community!</h2>
                     <p className="text-xl font-light mb-8">

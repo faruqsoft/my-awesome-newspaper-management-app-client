@@ -20,7 +20,7 @@ const Navbar = () => {
         }`;
 
     return (
-        <nav className="bg-blue-600 shadow-xl relative z-50"> {/* Increased z-index */}
+        <nav className="bg-blue-600 shadow-xl sticky top-0 relative z-50"> {/* Increased z-index */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     {/* Logo */}
