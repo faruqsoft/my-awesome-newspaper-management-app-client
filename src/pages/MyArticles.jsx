@@ -247,7 +247,7 @@ const MyArticles = () => {
                                 <input
                                     type="text"
                                     id="updateTitle"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 bg-gray-600 text-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     required
@@ -299,6 +299,29 @@ const MyArticles = () => {
                                     required
                                     className="basic-multi-select"
                                     classNamePrefix="select"
+                                      styles={{
+                                control: (baseStyles) => ({
+                                    ...baseStyles,
+                                    backgroundColor: '#9ca3af', // gray-400 equivalent for base (this is gray-500)
+                                    borderColor: '#6b7280', // gray-500 equivalent for border
+                                    color: '#1f2937', // gray-900 equivalent for text
+                                }),
+                                singleValue: (baseStyles) => ({ ...baseStyles, color: '#1f2937' }),
+                                placeholder: (baseStyles) => ({ ...baseStyles, color: '#4b5563' }),
+                                menu: (baseStyles) => ({ ...baseStyles, backgroundColor: '#f3f4f6' }),
+                                option: (baseStyles, state) => ({
+                                    ...baseStyles,
+                                    backgroundColor: state.isSelected ? '#2563eb' : (state.isFocused ? '#e5e7eb' : '#f9fafb'),
+                                    color: state.isSelected ? '#fff' : '#1f2937',
+                                }),
+                                multiValue: (baseStyles) => ({ ...baseStyles, backgroundColor: '#bfdbfe' }),
+                                multiValueLabel: (baseStyles) => ({ ...baseStyles, color: '#1e40af' }),
+                                multiValueRemove: (baseStyles) => ({
+                                    ...baseStyles,
+                                    color: '#1e40af',
+                                    '&:hover': { backgroundColor: '#ef4444', color: 'white' },
+                                }),
+                            }}
                                 />
                             </div>
 
@@ -307,7 +330,7 @@ const MyArticles = () => {
                                 <textarea
                                     id="updateDescription"
                                     rows="3"
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                    className="w-full px-4 py-2 border bg-gray-200 text-gray-800 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                     required
