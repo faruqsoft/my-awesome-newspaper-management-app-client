@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'; // For prof
 import { toast } from 'react-hot-toast';
 import Modal from 'react-modal'; // For the update profile modal
 import { XMarkIcon, PencilSquareIcon } from '@heroicons/react/24/outline'; // Icons for edit/close
+import { Link } from 'react-router-dom';
 
 // Set app element for react-modal (important for accessibility)
 Modal.setAppElement('#root');

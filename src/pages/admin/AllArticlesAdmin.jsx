@@ -5,11 +5,11 @@ import {
     approveArticle,
     declineArticle,
     makeArticlePremium,
-    deleteMyArticle // Re-using deleteMyArticle as it only needs article ID
+    deleteMyArticle
 } from '../../services/articleApi';
 import { fetchAllPublishers } from '../../services/publisherApi';
 import { toast } from 'react-hot-toast';
-import Swal from 'sweetalert2'; // For elegant confirmation/input modal
+import Swal from 'sweetalert2';
 
 const AllArticlesAdmin = () => {
     const queryClient = useQueryClient();
@@ -17,7 +17,7 @@ const AllArticlesAdmin = () => {
     const [filterStatus, setFilterStatus] = useState('');
     const [filterPublisher, setFilterPublisher] = useState('');
     const [page, setPage] = useState(1);
-    const limit = 10; // Articles per page
+    const limit = 10;
 
     const { data: publishers = [] } = useQuery({
         queryKey: ['publishers'],
@@ -39,7 +39,7 @@ const AllArticlesAdmin = () => {
             page,
             limit
         }),
-        staleTime: 30 * 1000, // 30 seconds
+        staleTime: 30 * 1000,
     });
 
     const approveMutation = useMutation({
@@ -47,7 +47,7 @@ const AllArticlesAdmin = () => {
         onSuccess: (data) => {
             toast.success(data.message);
             queryClient.invalidateQueries(['adminArticles']);
-            queryClient.invalidateQueries(['approvedArticles']); // Also refresh public articles
+            queryClient.invalidateQueries(['approvedArticles']);
         },
         onError: (err) => {
             toast.error(err.response?.data?.message || 'Failed to approve article.');
@@ -70,7 +70,7 @@ const AllArticlesAdmin = () => {
         onSuccess: (data) => {
             toast.success(data.message);
             queryClient.invalidateQueries(['adminArticles']);
-            queryClient.invalidateQueries(['premiumArticles']); // Refresh premium articles list
+            queryClient.invalidateQueries(['premiumArticles']);
         },
         onError: (err) => {
             toast.error(err.response?.data?.message || 'Failed to make article premium.');
@@ -78,17 +78,16 @@ const AllArticlesAdmin = () => {
     });
 
     const deleteMutation = useMutation({
-        mutationFn: deleteMyArticle, // Re-using this from user's side
+        mutationFn: deleteMyArticle,
         onSuccess: (data) => {
             toast.success(data.message);
             queryClient.invalidateQueries(['adminArticles']);
-            queryClient.invalidateQueries(['approvedArticles']); // Also refresh public articles
+            queryClient.invalidateQueries(['approvedArticles']);
         },
         onError: (err) => {
             toast.error(err.response?.data?.message || 'Failed to delete article.');
         },
     });
-
 
     const handleDeclineClick = (articleId) => {
         Swal.fire({
@@ -143,18 +142,18 @@ const AllArticlesAdmin = () => {
 
     return (
         <div className="container mx-auto p-4 md:p-8">
-            <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">Manage All Articles</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold text-center mb-8 text-gray-800">Manage All Articles</h1>
 
-            <div className="flex flex-col md:flex-row justify-between gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                 <input
                     type="text"
                     placeholder="Search by title..."
-                    className="w-full md:w-1/3 px-4 py-2 bg-gray-300 t text-black border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="px-4 py-2 bg-gray-300 text-black border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={searchQuery}
                     onChange={(e) => { setSearchQuery(e.target.value); setPage(1); }}
                 />
                 <select
-                    className="w-full md:w-1/4 px-4 py-2 bg-gray-500 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="px-4 py-2 bg-gray-500 text-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={filterStatus}
                     onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
                 >
@@ -164,7 +163,7 @@ const AllArticlesAdmin = () => {
                     <option value="declined">Declined</option>
                 </select>
                 <select
-                    className="w-full md:w-1/4 px-4 py-2 bg-gray-500 text-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="px-4 py-2 bg-gray-500 text-white border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     value={filterPublisher}
                     onChange={(e) => { setFilterPublisher(e.target.value); setPage(1); }}
                 >
@@ -182,36 +181,20 @@ const AllArticlesAdmin = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Title
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Author
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Posted Date
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Publisher
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Premium
-                                </th>
-                                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Actions
-                                </th>
+                                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
+                                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Author</th>
+                                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Posted Date</th>
+                                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Publisher</th>
+                                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Premium</th>
+                                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                             {articlesData.articles.map((article) => (
                                 <tr key={article._id}>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 truncate max-w-xs">
-                                        {article.title}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-2 py-4 text-sm font-medium text-gray-900 truncate max-w-xs">{article.title}</td>
+                                    <td className="px-2 py-4 text-sm text-gray-900">
                                         <div className="flex items-center">
                                             <img src={article.authorPhoto} alt={article.authorName} className="w-8 h-8 rounded-full mr-2" />
                                             <div>
@@ -220,16 +203,14 @@ const AllArticlesAdmin = () => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {new Date(article.createdAt).toLocaleDateString()}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    <td className="px-2 py-4 text-sm text-gray-900">{new Date(article.createdAt).toLocaleDateString()}</td>
+                                    <td className="px-2 py-4 text-sm text-gray-900">
                                         <div className="flex items-center">
                                             <img src={article.publisherLogo} alt={article.publisher} className="w-6 h-6 rounded-full mr-2" />
                                             {article.publisher}
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                    <td className="px-2 py-4 text-sm">
                                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                                             article.status === 'approved' ? 'bg-green-100 text-green-800' :
                                             article.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
@@ -238,14 +219,12 @@ const AllArticlesAdmin = () => {
                                             {article.status}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {article.isPremium ? 'Yes' : 'No'}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <td className="px-2 py-4 text-sm text-gray-900">{article.isPremium ? 'Yes' : 'No'}</td>
+                                    <td className="px-2 py-4 text-sm text-right space-x-2">
                                         {article.status !== 'approved' && (
                                             <button
                                                 onClick={() => approveMutation.mutate(article._id)}
-                                                className="text-green-600 hover:text-green-900 mr-4"
+                                                className="text-green-600 hover:text-green-900"
                                                 disabled={approveMutation.isLoading}
                                             >
                                                 Approve
@@ -254,20 +233,20 @@ const AllArticlesAdmin = () => {
                                         {article.status !== 'declined' && (
                                             <button
                                                 onClick={() => handleDeclineClick(article._id)}
-                                                className="text-red-600 hover:text-red-900 mr-4"
+                                                className="text-red-600 hover:text-red-900"
                                                 disabled={declineMutation.isLoading}
                                             >
                                                 Decline
                                             </button>
                                         )}
                                         <button
-                                            onClick={() => deleteMutation.mutate(article._id)}
-                                            className="text-gray-600 hover:text-gray-900 mr-4"
+                                            onClick={() => handleDeleteClick(article._id)}
+                                            className="text-gray-600 hover:text-gray-900"
                                             disabled={deleteMutation.isLoading}
                                         >
                                             Delete
                                         </button>
-                                        {!article.isPremium && article.status === 'approved' && ( // Only approved articles can be made premium
+                                        {!article.isPremium && article.status === 'approved' && (
                                             <button
                                                 onClick={() => makePremiumMutation.mutate(article._id)}
                                                 className="text-yellow-600 hover:text-yellow-900"
@@ -282,9 +261,8 @@ const AllArticlesAdmin = () => {
                         </tbody>
                     </table>
 
-                    {/* Pagination Controls */}
                     {articlesData.totalPages > 1 && (
-                        <div className="flex justify-center mt-6 space-x-2">
+                        <div className="flex flex-wrap justify-center mt-6 gap-2">
                             <button
                                 onClick={() => setPage(prev => Math.max(prev - 1, 1))}
                                 disabled={page === 1}

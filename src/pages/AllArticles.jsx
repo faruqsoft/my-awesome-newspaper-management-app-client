@@ -4,6 +4,7 @@ import { fetchApprovedArticles } from '../services/articleApi';
 import { fetchAllPublishers } from '../services/publisherApi'; // Needed for publisher filter
 import { Link } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider'; // To check premium status
+import Loader from '../components/shared/Loader';
 
 const tagOptions = [ // Same as in AddArticle.jsx
     { value: 'Technology', label: 'Technology' },
@@ -40,7 +41,7 @@ const AllArticles = () => {
     });
 
     if (isLoading || authLoading) {
-        return <div className="text-center p-8">Loading Articles...</div>;
+        return <Loader />;
     }
 
     if (isError) {
@@ -92,8 +93,8 @@ const AllArticles = () => {
                         return (
                             <div
                                 key={article._id}
-                                className={`rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 ${
-                                    isPremiumArticle ? 'border-4 border-yellow-500' : 'border border-gray-200'
+                                className={`rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-xl bg-gray-800 ${
+                                    isPremiumArticle ? 'shadow-[0_8px_30px_rgb(249,115,22,0.1)]' : 'shadow-[0_8px_30px_rgba(0,0,0,0.1)]'
                                 }`}
                             >
                                 {isPremiumArticle && (

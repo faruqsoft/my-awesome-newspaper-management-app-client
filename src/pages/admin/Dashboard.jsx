@@ -2,21 +2,18 @@ import React from 'react';
 import { Chart } from 'react-google-charts';
 import { Link } from 'react-router-dom';
 
-// Mocked data for demonstration; replace with API data as needed
 const publishers = [
   { name: 'Publication A', articles: 2 },
   { name: 'Publication B', articles: 3 },
   { name: 'Publication C', articles: 5 },
 ];
 
-// Pie chart data
 const totalArticles = publishers.reduce((sum, pub) => sum + pub.articles, 0);
 const pieData = [
   ['Publisher', 'Articles'],
   ...publishers.map(pub => [pub.name, pub.articles]),
 ];
 
-// Static Bar Chart data
 const barData = [
   ['Month', 'New Users', 'New Articles'],
   ['Jan', 30, 40],
@@ -25,7 +22,6 @@ const barData = [
   ['Apr', 40, 60],
 ];
 
-// Static Line Chart data
 const lineData = [
   ['Day', 'Subscriptions'],
   ['Mon', 10],
@@ -39,23 +35,26 @@ const lineData = [
 
 const Dashboard = () => {
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-gradient-to-tr from-gray-100 to-blue-50">
       {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-lg p-6 rounded-r-lg mr-8">
-        <h2 className="text-2xl font-bold text-blue-800 mb-8">Admin Panel</h2>
-        <nav className="flex flex-col space-y-4">
-          <Link to="/dashboard/all-users" className="text-lg text-gray-700 hover:text-blue-600">All Users</Link>
-          <Link to="/dashboard/all-articles" className="text-lg text-gray-700 hover:text-blue-600">All Articles</Link>
-          <Link to="/dashboard/add-publisher" className="text-lg text-gray-700 hover:text-blue-600">Add Publisher</Link>
+      <aside className="w-full lg:w-64 bg-white shadow-xl p-6 lg:rounded-r-3xl lg:h-screen sticky top-0">
+        <h2 className="text-3xl font-bold text-blue-800 mb-8 text-center lg:text-left">Admin Panel</h2>
+        <nav className="flex flex-col space-y-4 text-center lg:text-left">
+          <Link to="/dashboard/all-users" className="text-lg font-medium text-gray-600 hover:text-blue-600 transition">All Users</Link>
+          <Link to="/dashboard/all-articles" className="text-lg font-medium text-gray-600 hover:text-blue-600 transition">All Articles</Link>
+          <Link to="/dashboard/add-publisher" className="text-lg font-medium text-gray-600 hover:text-blue-600 transition">Add Publisher</Link>
         </nav>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-6">Admin Dashboard Overview</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Dynamic Pie Chart */}
-          <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+      <main className="flex-1 p-6 sm:p-10">
+        <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-10 text-center lg:text-left">
+          Admin Dashboard Overview
+        </h1>
+
+        <div className="grid gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+          {/* Pie Chart */}
+          <div className="bg-white rounded-3xl shadow-md p-6 flex flex-col items-center">
             <h3 className="text-xl font-semibold mb-4 text-blue-700">Articles by Publisher</h3>
             <Chart
               chartType="PieChart"
@@ -71,9 +70,9 @@ const Dashboard = () => {
             />
           </div>
 
-          {/* Static Bar Chart */}
-          <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
-            <h3 className="text-xl font-semibold mb-4 text-green-700">Monthly Growth</h3>
+          {/* Bar Chart */}
+          <div className="bg-white rounded-3xl shadow-md p-6 flex flex-col items-center">
+            <h3 className="text-xl font-semibold mb-4 text-green-600">Monthly Growth</h3>
             <Chart
               chartType="Bar"
               width="100%"
@@ -87,8 +86,8 @@ const Dashboard = () => {
             />
           </div>
 
-          {/* Static Line Chart */}
-          <div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+          {/* Line Chart */}
+          <div className="bg-white rounded-3xl shadow-md p-6 flex flex-col items-center">
             <h3 className="text-xl font-semibold mb-4 text-purple-700">Weekly Subscriptions</h3>
             <Chart
               chartType="LineChart"

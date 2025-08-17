@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import { processPayment } from '../services/paymentApi';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2'; // For payment confirmation
+import Loader from '../components/shared/Loader';
 
 const Subscription = () => {
     const { user, loading: authLoading, updateAuthUser } = useAuth(); // Use updateAuthUser from AuthProvider
@@ -85,12 +86,7 @@ const Subscription = () => {
 
     // Loading state for auth or payment processing
     if (authLoading || processPaymentMutation.isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-gray-50 text-gray-800">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
-                <p className="ml-4 text-xl">Loading subscription options...</p>
-            </div>
-        );
+        return <Loader />;
     }
 
     return (
